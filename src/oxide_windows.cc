@@ -46,6 +46,7 @@ bool Oxide::init_os_gl() {
     // You need to use glGetStringi(GL_EXTENSIONS, <index>) instead. Sounds like a "bug" in GLEW.
 
     if (!wglCreateContextAttribsARB) wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
+    if (!wglSwapIntervalEXT) wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
 
     if (wglCreateContextAttribsARB) {
         HGLRC atrib_rc = nullptr;
@@ -88,6 +89,7 @@ bool Oxide::init_os_gl() {
                 glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_HIGH_ARB, 0, NULL, GL_TRUE);
             }
 #endif
+            wglSwapIntervalEXT(0);
         }
     }
 
@@ -170,6 +172,8 @@ bool Oxide::init_window() {
     if (window_handle == nullptr)
         return false;
 
+    SetWindowLongPtr(window_handle, GWLP_USERDATA, (LONG)this);
+
     SetLayeredWindowAttributes(window_handle, 0, 255, LWA_ALPHA);
 
     DWM_BLURBEHIND bb   = {0};
@@ -230,6 +234,7 @@ void Oxide::begin_os_frame() {
 }
 
 void Oxide::end_os_frame() {
+    wglMakeCurrent(dc, rc);
 
     auto active_window = GetForegroundWindow();
 
