@@ -13,6 +13,8 @@
 #include "include/nanovg_gl.h"
 #include "include/nanovg_gl_utils.h"
 
+#include "oxide_imgui_draw.hh"
+
 bool Oxide::init_gl() {
     init_os_gl();
 
@@ -22,6 +24,15 @@ bool Oxide::init_gl() {
 
     context = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
 
+    {
+        // Imgui setup
+        ImGui::CreateContext();
+        ImGui::GetIO();
+
+        ImGui_ImplOpenGL3_Init();
+
+        ImGui::StyleColorsDark();
+    }
     return true;
 }
 
@@ -51,10 +62,15 @@ void Oxide::begin_frame() {
     begin_os_frame();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     nvgBeginFrame(context, window_width, window_height, 1);
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
 }
 
 void Oxide::end_frame() {
     nvgEndFrame(context);
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     end_os_frame();
 }
 

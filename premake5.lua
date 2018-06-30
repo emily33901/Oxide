@@ -50,39 +50,7 @@ workspace "oxide"
         
     filter {}
     
-    project "oxide"
-        kind "StaticLib"
-        language "C++"
-        targetdir "bin/%{cfg.buildcfg}"
-        
-        -- Windows and linux use different precompiled header stuff
-        filter {"system:linux"}
-            pchheader "src/precompiled.hh"
-        filter {"system:windows"}
-            pchheader "precompiled.hh"
-        filter {}
-        
-        pchsource "src/precompiled.cc"
-
-        filter{"files:src/include/*.c"}
-            flags{"NoPCH"}
-        filter{}
-
-        filter{"configurations:Debug"}
-            libdirs{"src/lib/Debug/"}
-        filter{"configurations:Release"}
-            libdirs{"src/lib/RelWithDebInfo"}
-        filter{}
-
-        filter{"system:windows"}
-            links{"OpenGL32", "dwmapi"}
-        filter{}
-
-        links{"glfw3", "glew32s.lib"}
-        
-        includedirs { "src", "include" }
-        files { "src/**.hh", "src/**.cc", "src/**.h", "src/**.c" }
-
+    require "import"
         -- For moving the compile commands into the root directory of the project
         -- so that autocomplete tools can see them (cquery...)
         
