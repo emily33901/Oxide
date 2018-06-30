@@ -12,4 +12,4 @@ project "oxide"
     links{"glfw3", "glew32s.lib"}
 
     includedirs { "src", "include" }
-    files { "src/**.hh", "src/**.cc", "src/**.h", "src/**.c" }
+    files { "src/**.h*", "src/**.c*" }
