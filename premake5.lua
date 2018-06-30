@@ -1,7 +1,7 @@
 require("premake_modules/export-compile-commands")
 require("premake_modules/cmake")
 
-workspace "workspace"
+workspace "oxide"
     configurations { "Debug", "Release" }
     platforms { "x32", "x64" }
 
@@ -50,7 +50,7 @@ workspace "workspace"
         
     filter {}
     
-    project "project"
+    project "oxide"
         kind "StaticLib"
         language "C++"
         targetdir "bin/%{cfg.buildcfg}"
@@ -74,7 +74,11 @@ workspace "workspace"
             libdirs{"src/lib/RelWithDebInfo"}
         filter{}
 
-        links{"glfw3", "glew32s.lib", "OpenGL32", "dwmapi"}
+        filter{"system:windows"}
+            links{"OpenGL32", "dwmapi"}
+        filter{}
+
+        links{"glfw3", "glew32s.lib"}
         
         includedirs { "src" }
         files { "src/**.hh", "src/**.cc", "src/**.h", "src/**.c" }
