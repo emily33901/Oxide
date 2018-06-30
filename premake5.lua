@@ -80,7 +80,7 @@ workspace "oxide"
 
         links{"glfw3", "glew32s.lib"}
         
-        includedirs { "src" }
+        includedirs { "src", "include" }
         files { "src/**.hh", "src/**.cc", "src/**.h", "src/**.c" }
 
         -- For moving the compile commands into the root directory of the project

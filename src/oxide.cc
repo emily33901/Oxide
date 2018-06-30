@@ -48,6 +48,7 @@ bool Oxide::init(const char *target_name) {
 }
 
 void Oxide::begin_frame() {
+    begin_os_frame();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     nvgBeginFrame(context, window_width, window_height, 1);
 }

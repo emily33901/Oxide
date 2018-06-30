@@ -225,6 +225,10 @@ void Oxide::resize() {
     this->window_height = height;
 }
 
+void Oxide::begin_os_frame() {
+    wglMakeCurrent(dc, rc);
+}
+
 void Oxide::end_os_frame() {
 
     auto active_window = GetForegroundWindow();

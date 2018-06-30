@@ -1,6 +1,6 @@
 #pragma once
 
-#include "include/nanovgdef.h"
+#include "nanovgdef.h"
 
 #ifdef _MSC_VER
 struct HDC__;
@@ -40,6 +40,7 @@ class Oxide {
     float window_width  = 800;
     float window_height = 600;
 
+    void begin_os_frame();
     void end_os_frame();
 
 public:
