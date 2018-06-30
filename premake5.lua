@@ -51,7 +51,7 @@ workspace "workspace"
     filter {}
     
     project "project"
-        kind "ConsoleApp"
+        kind "StaticLib"
         language "C++"
         targetdir "bin/%{cfg.buildcfg}"
         

@@ -339,6 +339,7 @@ NVGparams *OxideNVG::internal_params() {
     return nvgInternalParams(window->context);
 }
 
+#if 0
 #include <Windows.h>
 int main() {
     Oxide o;
@@ -410,3 +411,4 @@ int main() {
         o.end_frame();
     }
 }
+#endif

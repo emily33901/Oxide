@@ -120,7 +120,6 @@ public:
     void current_transform(float *xform);
 
     // image
-
     int  create_image(const char *file_name, int flags);
     int  create_image_mem(int flags, unsigned char *data, int data_count);
     int  create_image_rgba(int w, int h, int flags, unsigned char *data);
