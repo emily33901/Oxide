@@ -9,7 +9,7 @@ jobs:
           name: Install dependencies
           command: |
             apt-get update -qq
-            apt-get install -y build-essential g++ g++-multilib clang-5.0 cmake git wget ssh patchelf
+            apt-get install -y build-essential g++ g++-multilib clang-5.0 cmake git wget ssh patchelf libgl1-mesa-dev libglu1-mesa-dev
       - checkout
       - run: git submodule sync
       - run: git submodule update --init --recursive
