@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/doghook
+    docker:
+      - image: ubuntu:rolling
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            apt-get update -qq
+            apt-get install -y build-essential g++ g++-multilib clang-5.0 cmake git wget ssh patchelf
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
+      - run:
+          name: Generate Make files
+          command: |
+            chmod +x premake5
+            chmod +x create_projects.sh
+            ./create_projects.sh
+      - run:
+          name: Build
+          command: |
+            cd premake
+            ln -s /usr/bin/clang-5.0 /usr/bin/clang
+            ln -s /usr/bin/clang++-5.0 /usr/bin/clang++
+            make -j2
+      - store_artifacts:
+          path: ~/doghook/bin/Debug/liboxide.a
+          destination: liboxide.a
