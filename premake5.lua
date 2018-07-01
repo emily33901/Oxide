@@ -26,7 +26,8 @@ workspace "oxide"
         cppdialect "C++17"
     filter {"system:linux"}
         toolset "clang" -- prefer clang over gcc
-        buildoptions "-std=c++17"
+        filter{"files:**.cc", "files:**.cpp"}
+            buildoptions "-std=c++17"
     filter {}
 
     -- Setup configurations
