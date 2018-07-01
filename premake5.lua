@@ -18,12 +18,11 @@ workspace "oxide"
         architecture "x64"
     filter {}
 
+    cppdialect "C++17"
+
     -- Setup c++ spec per platform
-    -- Linux uses a buildoption to allow for more
-    -- up to date standards (2a)
     filter {"system:windows"}
         toolset "msc-v141"
-        cppdialect "C++17"
     filter {"system:linux"}
         toolset "clang" -- prefer clang over gcc
         filter{"files:**.cc", "files:**.cpp"}
