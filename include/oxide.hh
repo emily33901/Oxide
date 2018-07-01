@@ -11,8 +11,12 @@ using HGLRC = HGLRC__ *;
 struct HWND__;
 using HWND = HWND__ *;
 #else
-using HWND = void *;
-#define __stdcall
+using Display = struct _XDisplay;
+using XID     = unsigned long;
+using HWND    = XID;
+
+using GLXContext  = struct __GLXcontextRec *;
+using GLXFBConfig = struct __GLXFBConfigRec *;
 #endif
 
 class Oxide {
@@ -22,6 +26,14 @@ class Oxide {
 #ifdef _MSC_VER
     HDC   dc;
     HGLRC rc;
+#else
+    Display *   display;
+    int         screen;
+    XID         color_map;
+    GLXContext  gl_context;
+    GLXFBConfig gl_fbconfig;
+    bool        mapped = false;
+
 #endif
     HWND window_handle;
     HWND target_handle;

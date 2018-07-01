@@ -3,13 +3,11 @@ project "oxide"
     language "C++"
     targetdir "bin/%{cfg.buildcfg}"
 
-    libdirs{"src/lib/RelWithDebInfo"}
-
     filter{"system:windows"}
         links{"OpenGL32", "dwmapi"}
+    filter{"system:linux"}
+        links{"X11", "GL", "Xext", "Xfixes"}
     filter{}
-
-    links{"glfw3", "glew32s.lib"}
 
     includedirs { "src", "include" }
     files { "src/**.h*", "src/**.c*" }

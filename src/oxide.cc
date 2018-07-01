@@ -9,7 +9,7 @@
 
 #include "include/nanovg.h"
 
-#define NANOVG_GL2_IMPLEMENTATION
+#define NANOVG_GL3_IMPLEMENTATION
 #include "include/nanovg_gl.h"
 #include "include/nanovg_gl_utils.h"
 
@@ -18,16 +18,19 @@
 bool Oxide::init_gl() {
     init_os_gl();
 
+    glewExperimental = GL_TRUE;
     glewInit();
 
     glClearColor(0, 0, 0, 0);
 
-    context = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+    context = nvgCreateGL3(NVG_STENCIL_STROKES | NVG_DEBUG);
 
     {
         // Imgui setup
         ImGui::CreateContext();
-        ImGui::GetIO();
+        auto &io = ImGui::GetIO();
+
+        io.DisplaySize = ImVec2(window_width, window_height);
 
         ImGui_ImplOpenGL3_Init();
 
@@ -65,6 +68,8 @@ void Oxide::begin_frame() {
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
+
+    ImGui::ShowDemoWindow(nullptr);
 }
 
 void Oxide::end_frame() {
@@ -357,24 +362,48 @@ NVGparams *OxideNVG::internal_params() {
 }
 
 #if 0
+#ifdef _MSC_VER
 #include <Windows.h>
+const char target[]    = "Notepad";
+const char font_name[] = "C:\\Windows\\Fonts\\Tahoma.ttf";
+#else
+#include <unistd.h>
+void Sleep(int amount) {
+    usleep(amount * 1000);
+}
+const char target[] = "josh@F1: ~/src/Oxide/bin/Debug";
+//const char target[] = "*Untitled Document 1 - gedit";
+
+const char font_name[] = "/usr/share/fonts/truetype/msttcorefonts/Arial.ttf";
+#endif
+
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+
 int main() {
     Oxide o;
-    bool  init_success = o.init("Notepad");
+    bool  init_success = o.init(target);
 
     while (!init_success) {
         printf("Trying to find window...\n");
         Sleep(1000);
-        init_success = o.set_target("Notepad");
+        init_success = o.set_target(target);
     }
 
     OxideNVG     n(&o);
     OxideSurface s(&o);
 
     //int id = nvgCreateFont(o.context, "regular", "C:\\Windows\\Fonts\\Tahoma.ttf");
-    int id = n.create_font("regular", "C:\\Windows\\Fonts\\Tahoma.ttf");
+    int id = n.create_font("regular", font_name);
+
+    duration<double> frame_length;
+    char             fps[128];
 
     while (true) {
+        high_resolution_clock::time_point t1 = high_resolution_clock::now();
+
         o.begin_frame();
 
 #if 0
@@ -411,7 +440,8 @@ int main() {
         n.font_size(72);
         n.text_align(OxideAlign::NVG_ALIGN_LEFT | OxideAlign::NVG_ALIGN_TOP);
         n.fill_color({0, 0, 255, 255});
-        n.text(10, 10, "wow nice meme");
+        sprintf(fps, "%f", 1 / frame_length.count());
+        n.text(10, 10, fps);
 
         s.color(0, 255, 255, 255);
         s.filled_rect(300, 300, 400, 400);
@@ -421,11 +451,14 @@ int main() {
 
         s.color(255, 255, 0, 255);
         s.set_font(id);
-        s.draw_text(100, 100, 40, "raspbian cant code");
+        s.draw_text(100, 100, 48, "raspbian cant code");
 
         s.outlined_rect(50, 50, 200, 300);
 
         o.end_frame();
+
+        high_resolution_clock::time_point t2 = high_resolution_clock::now();
+        frame_length                         = duration_cast<duration<double>>(t2 - t1);
     }
 }
 #endif
