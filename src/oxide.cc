@@ -68,8 +68,6 @@ void Oxide::begin_frame() {
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
-
-    ImGui::ShowDemoWindow(nullptr);
 }
 
 void Oxide::end_frame() {
