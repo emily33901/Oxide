@@ -45,9 +45,9 @@ bool Oxide::init_window() {
         printf("unable to choose visual...\n");
     }
 
-    auto default_context = glXCreateContext(display, vi, None, 1);
+    gl_context = glXCreateContext(display, vi, None, 1);
 
-    glXMakeCurrent(display, 0, default_context);
+    glXMakeCurrent(display, 0, gl_context);
 
     glewExperimental = GL_TRUE;
 
@@ -152,7 +152,11 @@ bool Oxide::init_os_gl() {
     int ctx_attribs[] = {GLX_CONTEXT_MAJOR_VERSION_ARB, 4,
                          GLX_CONTEXT_MINOR_VERSION_ARB, 2, None};
 
-    gl_context = glXCreateContextAttribsARB(display, gl_fbconfig, nullptr, GL_TRUE, ctx_attribs);
+    auto old_context = gl_context;
+    gl_context       = glXCreateContextAttribsARB(display, gl_fbconfig, nullptr, GL_TRUE, ctx_attribs);
+
+    // Cleanup the temp context
+    glXDestroyContext(display, old_context);
 
     XSync(display, false);
 
