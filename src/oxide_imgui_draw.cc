@@ -2,6 +2,7 @@
 #include <Windows.h>
 #endif
 
+#define GLEW_STATIC
 #include <GL/glew.h>
 
 #ifdef _MSC_VER
