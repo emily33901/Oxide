@@ -9,5 +9,7 @@ project "oxide"
         links{"X11", "GL", "Xext", "Xfixes"}
     filter{}
 
+    defines {"GLEW_STATIC"}
+
     includedirs { "src", "include" }
     files { "src/**.h*", "src/**.c*" }

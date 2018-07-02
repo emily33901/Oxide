@@ -2,7 +2,6 @@
 
 #include "oxide.hh"
 
-#define GLEW_STATIC
 #include "GL/glew.h"
 
 #define NANOVG_GLEW

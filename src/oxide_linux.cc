@@ -7,7 +7,6 @@
 #include <cstdio>
 #include <cstring>
 
-#define GLEW_STATIC
 #include "GL/glew.h"
 #include "GL/glxew.h"
 
