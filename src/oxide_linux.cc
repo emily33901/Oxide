@@ -151,20 +151,22 @@ bool Oxide::init_os_gl() {
     int ctx_attribs[] = {GLX_CONTEXT_MAJOR_VERSION_ARB, 4,
                          GLX_CONTEXT_MINOR_VERSION_ARB, 2, None};
 
-    auto old_context = gl_context;
-    gl_context       = glXCreateContextAttribsARB(display, gl_fbconfig, nullptr, GL_TRUE, ctx_attribs);
+    glXDestroyContext(display, gl_context);
 
-    // Cleanup the temp context
-    glXDestroyContext(display, old_context);
-
-    XSync(display, false);
+    gl_context = glXCreateContextAttribsARB(display, gl_fbconfig, nullptr, GL_TRUE, ctx_attribs);
 
     if (gl_context == nullptr) return false;
 
     glXMakeCurrent(display, window_handle, gl_context);
 
-    PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXSwapIntervalEXT");
+    // Disable the swap interval for all platforms
+    // Glew handles ignoring calls for the wrong platform
+    // So we can just try all of them
     glXSwapIntervalEXT(display, window_handle, 0);
+    glXSwapIntervalMESA(0);
+    glXSwapIntervalSGI(0);
+
+    XSync(display, false);
 
     // XMapWindow(display, window_handle);
     // mapped = true;

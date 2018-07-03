@@ -368,10 +368,10 @@ const char font_name[] = "C:\\Windows\\Fonts\\Tahoma.ttf";
 void Sleep(int amount) {
     usleep(amount * 1000);
 }
-const char target[] = "josh@F1: ~/src/Oxide/bin/Debug";
+const char target[] = "pygame window";
 //const char target[] = "*Untitled Document 1 - gedit";
 
-const char font_name[] = "/usr/share/fonts/truetype/msttcorefonts/Arial.ttf";
+const char font_name[] = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf";
 #endif
 
 #include <chrono>
@@ -400,7 +400,6 @@ int main() {
 
     while (true) {
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-
         o.begin_frame();
 
 #if 0
@@ -439,6 +438,8 @@ int main() {
         n.fill_color({0, 0, 255, 255});
         sprintf(fps, "%f", 1 / frame_length.count());
         n.text(10, 10, fps);
+
+        printf("%f\n", 1 / frame_length.count());
 
         s.color(0, 255, 255, 255);
         s.filled_rect(300, 300, 400, 400);
