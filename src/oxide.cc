@@ -60,6 +60,12 @@ bool Oxide::init(const char *target_name) {
     return true;
 }
 
+bool Oxide::set_swap(bool enabled) {
+    auto old     = swap_enabled;
+    swap_enabled = enabled;
+    return old;
+}
+
 void Oxide::begin_frame() {
     begin_os_frame();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

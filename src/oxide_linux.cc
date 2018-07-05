@@ -298,7 +298,8 @@ void Oxide::end_os_frame() {
 
     if (mapped) {
         resize();
-        glXSwapBuffers(display, window_handle);
+
+        if (swap_enabled) glXSwapBuffers(display, window_handle);
     }
 }
 

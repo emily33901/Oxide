@@ -26,6 +26,9 @@ class Oxide {
 #ifdef _MSC_VER
     HDC   dc;
     HGLRC rc;
+
+    static void *__stdcall window_proc(HWND hwnd, unsigned message, size_t w_param, size_t l_param);
+    void *overlay_proc(unsigned message, size_t w_param, size_t l_param);
 #else
     Display *   display;
     int         screen;
@@ -38,10 +41,8 @@ class Oxide {
     HWND window_handle;
     HWND target_handle;
 
-#ifdef _MSC_VER
-    static void *__stdcall window_proc(HWND hwnd, unsigned message, size_t w_param, size_t l_param);
-    void *overlay_proc(unsigned message, size_t w_param, size_t l_param);
-#endif
+    // Control whether to swap buffers
+    bool swap_enabled = true;
 
     NVGcontext *context;
 
@@ -59,6 +60,8 @@ public:
     bool init(const char *target_name);
     void shutdown();
     bool set_target(const char *target_name);
+
+    bool set_swap(bool enabled);
 
     void begin_frame();
     void end_frame();

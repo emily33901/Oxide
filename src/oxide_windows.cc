@@ -240,7 +240,8 @@ void Oxide::end_os_frame() {
     // dont paint if the target is minimised
     if (!IsIconic(target_handle) && active_window == target_handle) {
         ShowWindow(window_handle, SW_SHOWNORMAL);
-        SwapBuffers(dc);
+
+        if (swap_enabled) SwapBuffers(dc);
 
         resize();
     } else {
