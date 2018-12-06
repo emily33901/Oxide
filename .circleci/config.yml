@@ -9,7 +9,7 @@ jobs:
           name: Install dependencies
           command: |
             apt-get update -qq
-            apt-get install -y build-essential g++ g++-multilib clang-5.0 cmake git wget ssh patchelf libgl1-mesa-dev libglu1-mesa-dev
+            apt-get install -y build-essential g++ g++-multilib clang-6.0 cmake git wget ssh patchelf libgl1-mesa-dev libglu1-mesa-dev
       - checkout
       - run: git submodule sync
       - run: git submodule update --init --recursive
@@ -23,8 +23,8 @@ jobs:
           name: Build
           command: |
             cd premake
-            ln -s /usr/bin/clang-5.0 /usr/bin/clang
-            ln -s /usr/bin/clang++-5.0 /usr/bin/clang++
+            ln -s /usr/bin/clang-6.0 /usr/bin/clang
+            ln -s /usr/bin/clang++-6.0 /usr/bin/clang++
             make -j2
       - store_artifacts:
           path: ~/doghook/bin/Debug/liboxide.a
