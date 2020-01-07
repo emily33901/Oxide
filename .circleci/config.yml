@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     working_directory: ~/doghook
@@ -23,8 +23,8 @@ jobs:
           name: Build
           command: |
             cd premake
-            ln -s /usr/bin/clang-6.0 /usr/bin/clang
-            ln -s /usr/bin/clang++-6.0 /usr/bin/clang++
+            ln -s /usr/bin/clang-8.0 /usr/bin/clang
+            ln -s /usr/bin/clang++-8.0 /usr/bin/clang++
             make -j2
       - store_artifacts:
           path: ~/doghook/bin/Debug/liboxide.a
